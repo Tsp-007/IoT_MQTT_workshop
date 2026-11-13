@@ -32,7 +32,8 @@ void setup() {
     delay(1000);
   }
 
-  mqtt.subscribe("CENEXTGEN4/chat");
+  //In case you are Somying who want to talk to Somchia.
+  mqtt.subscribe("CENEXTGEN4/chat/Somchai"); //subscibe to Somchai's chat
 
   Serial.println("MQTT connected");
   previousSend = millis();
@@ -43,6 +44,6 @@ void loop() {
 
   if (millis() - previousSend >= 1000) {
     previousSend = millis();
-    mqtt.publish("CENEXTGEN4/chat", "Hello CE Next Gen Camp!");
+    mqtt.publish("CENEXTGEN4/chat/Somying", "Hello Somchai!!"); //publish to Somying's chat
   }
 }
