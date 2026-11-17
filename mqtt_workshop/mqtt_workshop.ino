@@ -20,14 +20,11 @@ void setup() {
 
   //wifi set up using 2.4 GHz for ESP32 or Cellular
   WiFi.begin("CE_NEXTGEN#4_MCI_2.4GHz", "cenextgenMCI809");
-
   Serial.print("Connecting to Wi-Fi");
-
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-
   Serial.println("\nWi-Fi connected");
 
   //set mqtt broker
@@ -37,18 +34,17 @@ void setup() {
   //login to use esl's mqtt broker
   while (!mqtt.connect(
     WiFi.macAddress().c_str(),
-    "YOUR_MQTT_USER",
-    "YOUR_MQTT_PASSWORD"
+    "Test",
+    "test1234"
   )) {
     Serial.println("Connecting to MQTT...");
     delay(1000);
   }
 
   // Subscribe to Topic
-  mqtt.subscribe("YOUR_TOPIC_HERE");
-
+  mqtt.subscribe("CENEXTGEN4/chat");
+  mqtt.subscribe("ECC/7/+/+");
   Serial.println("MQTT connected");
-
   previousSend = millis();
 }
 
@@ -58,6 +54,20 @@ void loop() {
   if (millis() - previousSend >= 1000) {
     previousSend = millis();
   // Publish to Topic
-    mqtt.publish("YOUR_TOPIC_HERE", "YOUR_MESSAGE_HERE");
+    mqtt.publish("ECC/5/01/temp", "50.1");
+
+    // Floor 8
+    mqtt.publish("ECC/8/01/temp",  "80.1");
+    mqtt.publish("ECC/8/01/humid", "8.1");
+    mqtt.publish("ECC/8/02/temp",  "80.2");
+    mqtt.publish("ECC/8/02/humid", "8.2");
+
+    // Floor 7
+    mqtt.publish("ECC/7/01/temp",  "70.1");
+    mqtt.publish("ECC/7/01/humid", "7.1");
+    mqtt.publish("ECC/7/02/temp",  "70.2");
+    mqtt.publish("ECC/7/02/humid", "7.2");
+
+    mqtt.publish("CENEXTGEN4/chat", "Hi, This is P'khim");
   }
 }
